@@ -6,6 +6,7 @@ services:
       - "${SINATRA_PORT}"
     environment:
       - OME_HOST=${OME_HOST}
+      - SINATRA_PORT=${SINATRA_PORT}
     depends_on:
       - ome
 
@@ -35,3 +36,10 @@ services:
         envsubst < /opt/ovenmediaengine/bin/origin_conf/Server.xml.template > /opt/ovenmediaengine/bin/origin_conf/Server.xml &&
         /opt/ovenmediaengine/bin/OvenMediaEngine -c /opt/ovenmediaengine/bin/origin_conf
       "
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
