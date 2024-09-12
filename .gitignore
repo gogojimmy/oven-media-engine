@@ -1,5 +1,75 @@
-*.log
-*.pid
-tmp/
+# 操作系統生成的文件
 .DS_Store
-Gemfile.lock
+Thumbs.db
+
+# 編輯器/IDE 生成的文件
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ruby 相關
+*.gem
+*.rbc
+/.config
+/coverage/
+/InstalledFiles
+/pkg/
+/spec/reports/
+/spec/examples.txt
+/test/tmp/
+/test/version_tmp/
+/tmp/
+
+# Sinatra 相關
+/.bundle/
+/vendor/bundle
+/lib/bundler/man/
+
+# 環境變數文件
+.env
+.env.*
+!.env.example
+
+# Terraform 相關
+*.tfstate
+*.tfstate.*
+*.tfvars
+!example.tfvars
+.terraform/
+.terraformrc
+terraform.rc
+
+# 日誌文件
+*.log
+
+# 暫存文件
+*.tmp
+*.bak
+*.swp
+
+# 編譯的輸出
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# 包管理器
+/node_modules/
+/yarn-error.log
+/yarn.lock
+/package-lock.json
+
+# 特定於專案的忽略
+/public/assets/
+/config/master.key
+
+# OvenMediaEngine 相關
+Server.xml
+
+# 其他
+*.pem
+*.key
+*.crt
