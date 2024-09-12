@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Server version="8">
+	<Name>OvenMediaEngine</Name>
+	<Type>origin</Type>
+	<IP>*</IP>
+	<PrivacyProtection>false</PrivacyProtection>
+
+	<Modules>
+		<HTTP2>
+			<Enable>true</Enable>
+		</HTTP2>
+		<LLHLS>
+			<Enable>true</Enable>
+		</LLHLS>
+	</Modules>
+
+	<Bind>
+		<Managers>
+			<API>
+				<Port>8081</Port>
+				<WorkerCount>4</WorkerCount>				<!-- CPU 核心數的一半 -->
+			</API>
+		</Managers>
+
+		<Providers>
+			<RTMP>
+				<Port>1935</Port>
+				<WorkerCount>4</WorkerCount>				<!-- CPU 核心數的一半 -->
+			</RTMP>
+		</Providers>
+
+		<Publishers>
+			<WebRTC>
+				<Signalling>
+					<Port>3333</Port>
+					<WorkerCount>4</WorkerCount>					<!-- CPU 核心數的一半 -->
+				</Signalling>
+				<IceCandidates>
+					<IceCandidate>*:10000-10005/udp</IceCandidate>
+					<TcpRelayWorkerCount>8</TcpRelayWorkerCount>					<!-- 等於 CPU 核心數 -->
+				</IceCandidates>
+			</WebRTC>
+			<LLHLS>
+				<Port>8080</Port>
+				<WorkerCount>8</WorkerCount>				<!-- 等於 CPU 核心數 -->
+			</LLHLS>
+			<HLS>
+				<Port>8080</Port>
+			</HLS>
+			<DASH>
+				<Port>8080</Port>
+			</DASH>
+			<LLDash>
+				<Port>8080</Port>
+			</LLDash>
+		</Publishers>
+	</Bind>
+
+	<VirtualHosts>
+		<VirtualHost>
+			<Name>default</Name>
+
+			<Applications>
+				<Application>
+					<Name>app</Name>
+					<Type>live</Type>
+
+					<Providers>
+						<RTMP />
+					</Providers>
+
+					<Publishers>
+						<WebRTC>
+							<Timeout>30000</Timeout>
+						</WebRTC>
+						<LLHLS>
+							<SegmentDuration>5</SegmentDuration>
+							<SegmentCount>3</SegmentCount>
+							<CrossDomains>
+								<Url>*</Url>
+							</CrossDomains>
+						</LLHLS>
+						<HLS>
+							<SegmentDuration>5</SegmentDuration>
+							<SegmentCount>3</SegmentCount>
+							<CrossDomains>
+								<Url>*</Url>
+							</CrossDomains>
+						</HLS>
+						<DASH>
+							<SegmentDuration>5</SegmentDuration>
+							<SegmentCount>3</SegmentCount>
+							<CrossDomains>
+								<Url>*</Url>
+							</CrossDomains>
+						</DASH>
+						<LLDash>
+							<SegmentDuration>5</SegmentDuration>
+							<SegmentCount>3</SegmentCount>
+							<CrossDomains>
+								<Url>*</Url>
+							</CrossDomains>
+						</LLDash>
+					</Publishers>
+
+					<OutputProfiles>
+						<HardwareAcceleration>true</HardwareAcceleration>
+						<OutputProfile>
+							<Name>HD</Name>
+							<OutputStreamName>${OriginStreamName}_HD</OutputStreamName>
+							<Encodes>
+								<Video>
+									<Codec>h264</Codec>
+									<Width>1280</Width>
+									<Height>720</Height>
+									<Bitrate>2500000</Bitrate>
+									<Framerate>30</Framerate>
+								</Video>
+								<Audio>
+									<Codec>aac</Codec>
+									<Bitrate>128000</Bitrate>
+									<Samplerate>44100</Samplerate>
+									<Channel>2</Channel>
+								</Audio>
+							</Encodes>
+						</OutputProfile>
+						<OutputProfile>
+							<Name>SD</Name>
+							<OutputStreamName>${OriginStreamName}_SD</OutputStreamName>
+							<Encodes>
+								<Video>
+									<Codec>h264</Codec>
+									<Width>854</Width>
+									<Height>480</Height>
+									<Bitrate>1000000</Bitrate>
+									<Framerate>30</Framerate>
+								</Video>
+								<Audio>
+									<Codec>aac</Codec>
+									<Bitrate>96000</Bitrate>
+									<Samplerate>44100</Samplerate>
+									<Channel>2</Channel>
+								</Audio>
+							</Encodes>
+						</OutputProfile>
+						<OutputProfile>
+							<Name>LD</Name>
+							<OutputStreamName>${OriginStreamName}_LD</OutputStreamName>
+							<Encodes>
+								<Video>
+									<Codec>h264</Codec>
+									<Width>640</Width>
+									<Height>360</Height>
+									<Bitrate>500000</Bitrate>
+									<Framerate>30</Framerate>
+								</Video>
+								<Audio>
+									<Codec>aac</Codec>
+									<Bitrate>64000</Bitrate>
+									<Samplerate>44100</Samplerate>
+									<Channel>2</Channel>
+								</Audio>
+							</Encodes>
+						</OutputProfile>
+					</OutputProfiles>
+				</Application>
+			</Applications>
+		</VirtualHost>
+	</VirtualHosts>
+</Server>

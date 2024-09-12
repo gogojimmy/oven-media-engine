@@ -1,0 +1,21 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "4567:4567"
+    environment:
+      - OME_HOST=ome
+    depends_on:
+      - ome
+
+  ome:
+    image: airensoft/ovenmediaengine:latest
+    ports:
+      - "1935:1935"
+      - "3333:3333"
+      - "8080:8080"
+      - "8081:8081"
+      - "10000-10005:10000-10005/udp"
+    volumes:
+      - ./Server.xml:/opt/ovenmediaengine/bin/origin_conf/Server.xml

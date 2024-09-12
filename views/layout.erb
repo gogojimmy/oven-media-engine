@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OvenMediaEngine 管理介面</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body class="bg-gray-100">
+    <div id="app" class="container mx-auto px-4 py-8">
+      <%= yield %>
+    </div>
+    <script>
+      const { createApp } = Vue
+      createApp({
+          data() {
+              return {
+                  streams: [],
+                  selectedStream: null
+              }
+          },
+          mounted() {
+              this.fetchStreams()
+          },
+          methods: {
+              async fetchStreams() {
+                  const response = await axios.get('/api/streams')
+                  this.streams = response.data
+              },
+              async selectStream(streamName) {
+                  const response = await axios.get(`/api/streams/${streamName}`)
+                  this.selectedStream = response.data
+              },
+              async startStream(streamName) {
+                  await axios.post(`/api/streams/${streamName}/start`)
+                  this.fetchStreams()
+              },
+              async stopStream(streamName) {
+                  await axios.post(`/api/streams/${streamName}/stop`)
+                  this.fetchStreams()
+              }
+          }
+      }).mount('#app')
+    </script>
+  </body>
+</html>

@@ -1,0 +1,75 @@
+<h1 class="text-3xl font-bold mb-6">OvenMediaEngine 管理介面</h1>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div>
+    <h2 class="text-xl font-semibold mb-4">串流列表</h2>
+    <ul class="bg-white shadow overflow-hidden sm:rounded-md">
+      <li v-for="stream in streams" :key="stream.name" class="border-b border-gray-200">
+        <div class="px-4 py-4 sm:px-6">
+          <div class="flex items-center justify-between">
+            <p class="text-sm font-medium text-indigo-600 truncate">
+              {{ stream.name }}
+            </p>
+            <div class="ml-2 flex-shrink-0 flex">
+              <button @click="selectStream(stream.name)" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                詳情
+              </button>
+            </div>
+          </div>
+          <div class="mt-2 flex justify-between">
+            <div class="sm:flex">
+              <p class="flex items-center text-sm text-gray-500">
+                狀態: {{ stream.state }}
+              </p>
+            </div>
+            <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+              <button @click="startStream(stream.name)" class="mr-2 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
+                啟動
+              </button>
+              <button @click="stopStream(stream.name)" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">
+                停止
+              </button>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div v-if="selectedStream">
+    <h2 class="text-xl font-semibold mb-4">串流詳情</h2>
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+      <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          {{ selectedStream.name }}
+        </h3>
+      </div>
+      <div class="border-t border-gray-200">
+        <dl>
+          <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">
+              狀態
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {{ selectedStream.state }}
+            </dd>
+          </div>
+          <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">
+              輸入位元率
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {{ selectedStream.input.bitrate }} bps
+            </dd>
+          </div>
+          <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">
+              輸出位元率
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {{ selectedStream.output.bitrate }} bps
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
