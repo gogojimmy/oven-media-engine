@@ -2,12 +2,21 @@ version: '3'
 services:
   web:
     build: .
-    ports:
-      - "4567:4567"
+    expose:
+      - "4567"
     environment:
       - OME_HOST=ome
     depends_on:
       - ome
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - web
 
   ome:
     image: airensoft/ovenmediaengine:latest

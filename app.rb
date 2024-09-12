@@ -3,6 +3,8 @@ require 'sinatra/json'
 require 'httparty'
 require 'json'
 
+set :bind, '0.0.0.0'  # 添加這行，使 Sinatra 監聽所有網絡介面
+
 # OvenMediaEngine API 設定
 OME_API_URL = "http://#{ENV['OME_HOST']}:8081/v1"
 
